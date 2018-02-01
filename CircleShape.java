@@ -1,6 +1,7 @@
-package shapedemo;
+package pa03;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 
 /**
@@ -13,22 +14,15 @@ import java.awt.Graphics;
  * code for updating its position after a specified amount of time.
  * We assume the circles are on a rectanular board which limits their movement
  */
-public class RadiusChangeCircleShape {
+public class CircleShape {
 	  public static int boardWidth=500;
 		public static int boardHeight=500;
 
     public double radius;     // The radius of the circle.
     public double x,y;       // The location of the center of the circle.
     public Color color;   // The color of the circle.
-		private double vx=20;
-		private double vy=10;
-		private double vr = 1;
-		private String circleType = "changeRadius";
-
-		public void setCircleType(String s){
-			this.circleTyppe = s;
-
-		}
+		protected double vx=20;
+		protected double vy=10;
 
     /**
      * Create a CircleShape with a given location and radius and with a
@@ -41,10 +35,8 @@ public class RadiusChangeCircleShape {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        int red = (int)(255*Math.random());
-        int green = (int)(255*Math.random());
-        int blue = (int)(255*Math.random());
-        this.color = new Color(red,green,blue, 100);
+
+        this.color = new Color(200,200,200,100); // transparent light gray
 
     }
 
@@ -86,14 +78,6 @@ public class RadiusChangeCircleShape {
 			this.x += dt*vx;  // for now they do not move
 			this.y += dt*vy;
 
-
-			if (circleType == "changeRadius"){
-				this.radius += dt*vr;
-				if (this.radius < 10) this.vr = -this.vr;
-				else if (this.radius > 50) this.vr = -this.vr;
-			}
-
-
 			this.keepOnBoard();
 		}
 
@@ -107,20 +91,24 @@ public class RadiusChangeCircleShape {
 		public void keepOnBoard(){
 			if (this.x < this.radius) {
 				// it went off the left edge! do something!
-				this.vx= -this.vx;
+        this.vx = -this.vx;
+				this.x = this.radius;
 
 			}else if (this.x > CircleShape.boardWidth-this.radius) {
-				this.vx = -this.vx;
 				// it went off the right edge! do something!
+        this.vx = -this.vx;
+				this.x = CircleShape.boardWidth-this.radius;
 			}
 
 			if (this.y < this.radius){
 				// it went above the top edge!
-				this.vy=-this.vy;
+        this.vy = -this.vy;
+				this.y = this.radius;
 
 			} else if (this.y > CircleShape.boardHeight-this.radius) {
 				// it went below the bottom edge!
-				this.vy= -this.vy;
+        this.vy = -this.vy;
+				this.y = CircleShape.boardHeight-this.radius;
 			}
 		}
 }
